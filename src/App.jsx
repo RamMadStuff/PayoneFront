@@ -29,7 +29,7 @@ export default function App() {
         currency: order.currency,
         order_id: order.id,
         name: "PayOneRupee",
-        description: "Pay ₹1 to unlock counter",
+        description: "Pay ₹1 rupee to see how many are paid one rupee",
         handler: async function (response) {
           // response contains { razorpay_order_id, razorpay_payment_id, razorpay_signature }
           const verifyRes = await fetch(`${API}/verify`, {
@@ -85,7 +85,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       {!token ? (
         <div className="max-w-md w-full text-center">
-          <h1 className="text-2xl font-bold mb-4">Pay ₹1 to Unlock the Counter</h1>
+          <h1 className="text-2xl font-bold mb-4">Pay ₹1 rupee to see how many are paid one rupee</h1>
           <p className="text-sm text-gray-600 mb-6">Only users who successfully pay can see the total.</p>
           <button
             onClick={handlePayment}
