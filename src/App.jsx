@@ -1,9 +1,9 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
-const KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_placeholder";
+const API = "https://payonerupee-backend.onrender.com";
 
+const KEY = "rzp_test_RCeNPvNucCy9tR"; 
 export default function App() {
   const [count, setCount] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("authToken"));
