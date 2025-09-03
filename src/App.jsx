@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const API = import.meta.env.VITE_API_URL;
 const KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
@@ -8,6 +9,9 @@ export default function App() {
   const [count, setCount] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [loading, setLoading] = useState(false);
+
+  // store history of counts for graph
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     if (token) fetchCount();
@@ -31,7 +35,6 @@ export default function App() {
         name: "PayOneRupee",
         description: "Pay ₹1 rupee to see how many are paid one rupee",
         handler: async function (response) {
-          // response contains { razorpay_order_id, razorpay_payment_id, razorpay_signature }
           const verifyRes = await fetch(`${API}/verify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -42,15 +45,15 @@ export default function App() {
             localStorage.setItem("authToken", body.token);
             setToken(body.token);
             setCount(body.count);
+
+            // push to history for graph
+            setHistory((prev) => [...prev, { time: new Date().toLocaleTimeString(), count: body.count }]);
           } else {
             alert("Payment verification failed: " + (body.message || JSON.stringify(body)));
           }
         },
-        prefill: {},
-        notes: {},
         theme: { color: "#3399cc" },
       };
-
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
@@ -67,7 +70,6 @@ export default function App() {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
-        // invalid token / expired
         localStorage.removeItem("authToken");
         setToken(null);
         setCount(null);
@@ -76,6 +78,9 @@ export default function App() {
       }
       const data = await res.json();
       setCount(data.count);
+
+      // add latest count to history
+      setHistory((prev) => [...prev, { time: new Date().toLocaleTimeString(), count: data.count }]);
     } catch (err) {
       console.error(err);
     }
@@ -97,9 +102,23 @@ export default function App() {
           <p className="text-xs text-gray-500 mt-4">Using Razorpay (Test mode)</p>
         </div>
       ) : (
-        <div className="max-w-md w-full text-center">
+        <div className="max-w-2xl w-full text-center">
           <h2 className="text-xl font-semibold mb-2">You’ve paid — here’s the counter</h2>
           <div className="text-4xl font-extrabold my-4">{count === null ? "…" : count}</div>
+
+          {/* Graph */}
+          <div className="w-full h-64 bg-white shadow rounded-lg p-4 mb-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={history}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="time" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="count" stroke="#2563eb" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
           <div className="flex gap-2 justify-center">
             <button onClick={fetchCount} className="px-4 py-2 rounded bg-green-600 text-white">
               Refresh Count
@@ -109,6 +128,7 @@ export default function App() {
                 localStorage.removeItem("authToken");
                 setToken(null);
                 setCount(null);
+                setHistory([]);
               }}
               className="px-4 py-2 rounded border"
             >
