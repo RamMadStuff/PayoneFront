@@ -1,11 +1,11 @@
+// src/App.jsx
 import { Routes, Route, Link } from "react-router-dom";
+import MainApp from "./pages/MainApp";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import RefundPolicy from "./pages/RefundPolicy";
 import Terms from "./pages/Terms";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-
-// ... your existing App component
 
 export default function App() {
   return (
