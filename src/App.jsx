@@ -6,10 +6,13 @@ import RefundPolicy from "./pages/RefundPolicy.jsx";
 import Terms from "./pages/Terms.jsx";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
+import Navbar from "./components/Navbar.jsx";
+
 
 export default function App() {
   return (
     <div>
+      <Navbar /> 
       <Routes>
         <Route path="/" element={<MainApp />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
