@@ -2,20 +2,20 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="w-full bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-blue-600 text-white shadow">
       <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo / Brand */}
-        <Link to="/" className="text-2xl font-extrabold text-blue-600">
+        {/* Brand/Logo */}
+        <Link to="/" className="text-lg font-bold">
           PayOneRupee
         </Link>
 
-        {/* Navigation Links */}
-        <div className="flex gap-6 text-sm font-medium">
-          <Link to="/" className="hover:text-blue-600 transition">Home</Link>
-          <Link to="/about" className="hover:text-blue-600 transition">About</Link>
-          <Link to="/contact" className="hover:text-blue-600 transition">Contact</Link>
-        </div>
+        {/* Nav Links */}
+        <nav className="flex gap-6 text-sm font-medium">
+          <Link to="/" className="hover:text-gray-200">Home</Link>
+          <Link to="/about" className="hover:text-gray-200">About</Link>
+          <Link to="/contact" className="hover:text-gray-200">Contact</Link>
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 }
