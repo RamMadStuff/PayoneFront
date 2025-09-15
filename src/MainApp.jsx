@@ -43,9 +43,7 @@ export default function MainApp() {
             setCount(body.count);
 
             // 🎉 Confetti effect
-            import("canvas-confetti").then((confetti) => {
-              confetti.default();
-            });
+            window.confetti();
           } else {
             alert("Payment verification failed");
           }
