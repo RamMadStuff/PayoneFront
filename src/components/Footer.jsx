@@ -1,17 +1,14 @@
-// src/components/Footer.jsx
 import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-gray-300 text-center py-6 mt-12">
-      <div className="space-x-4 text-sm">
-        <Link to="/privacy-policy" className="hover:text-white">Privacy</Link>
-        <Link to="/refund-policy" className="hover:text-white">Refund</Link>
-        <Link to="/terms" className="hover:text-white">Terms</Link>
-        <Link to="/about" className="hover:text-white">About</Link>
-        <Link to="/contact" className="hover:text-white">Contact</Link>
+    <footer className="bg-gray-50 py-6 text-center text-gray-500 text-xs border-t">
+      <div className="space-x-4">
+        <Link to="/privacy-policy" className="hover:text-blue-600">Privacy</Link>
+        <Link to="/refund-policy" className="hover:text-blue-600">Refunds</Link>
+        <Link to="/terms" className="hover:text-blue-600">Terms</Link>
       </div>
-      <p className="mt-4 text-xs">&copy; {new Date().getFullYear()} PayOneRupee</p>
+      <p className="mt-2">© {new Date().getFullYear()} PayOneRupee. All rights reserved.</p>
     </footer>
   );
 }

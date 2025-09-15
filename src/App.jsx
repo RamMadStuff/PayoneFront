@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 import MainApp from "./MainApp";
-
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -13,6 +12,7 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<MainApp />} />
@@ -23,6 +23,7 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
         </Routes>
       </main>
+
       <Footer />
     </div>
   );
