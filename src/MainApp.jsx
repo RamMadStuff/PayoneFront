@@ -1,63 +1,152 @@
-import React from "react";
+// src/MainApp.jsx
+import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 
-export default function MainApp() {
-  // 🎉 Trigger confetti on success
-  const handlePayment = () => {
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Razorpay Key
-      amount: 100, // ₹1 in paisa
-      currency: "INR",
-      name: "PayOneRupee",
-      description: "Contribute ₹1",
-      handler: function (response) {
-        console.log("Payment Success:", response);
-        confetti({
-          particleCount: 200,
-          spread: 120,
-          origin: { y: 0.6 },
-        });
-      },
-      theme: {
-        color: "#4f46e5", // Indigo theme
-      },
-    };
+const API = import.meta.env.VITE_API_URL;
+const KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  };
+export default function MainApp() {
+  const [count, setCount] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("authToken"));
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (token) fetchCount();
+  }, [token]);
+
+  async function createOrder() {
+    const res = await fetch(`${API}/create-order`, { method: "POST" });
+    if (!res.ok) throw new Error("Failed to create order");
+    return res.json();
+  }
+
+  async function handlePayment() {
+    try {
+      setLoading(true);
+      const order = await createOrder();
+      const options = {
+        key: KEY,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.id,
+        name: "PayOneRupee",
+        description: "Pay ₹1 rupee to unlock the counter",
+        handler: async function (response) {
+          const verifyRes = await fetch(`${API}/verify`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response),
+          });
+          const body = await verifyRes.json();
+          if (verifyRes.ok && body.success) {
+            localStorage.setItem("authToken", body.token);
+            setToken(body.token);
+            setCount(body.count);
+            // 🎉 Confetti animation
+            confetti({
+              particleCount: 120,
+              spread: 70,
+              origin: { y: 0.6 },
+            });
+          } else {
+            alert("Payment verification failed: " + (body.message || JSON.stringify(body)));
+          }
+        },
+        theme: { color: "#2563eb" }, // blue-600
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert("Payment start failed: " + (err.message || err));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function fetchCount() {
+    try {
+      const res = await fetch(`${API}/count`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) {
+        localStorage.removeItem("authToken");
+        setToken(null);
+        setCount(null);
+        if (res.status === 403) alert("Session expired. Please pay again.");
+        return;
+      }
+      const data = await res.json();
+      setCount(data.count);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-indigo-50 to-purple-100">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Navbar */}
-      <nav className="w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-indigo-600">PayOneRupee</h1>
-        <span className="text-gray-500 text-sm">Make an impact with ₹1</span>
-      </nav>
+      <header className="w-full bg-white shadow-md">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-lg font-bold text-blue-600">PayOneRupee</h1>
+          <nav className="space-x-6 text-sm font-medium">
+            <a href="/" className="hover:text-blue-600">Home</a>
+            <a href="/about" className="hover:text-blue-600">About</a>
+            <a href="/contact" className="hover:text-blue-600">Contact</a>
+          </nav>
+        </div>
+      </header>
 
       {/* Main Content */}
       <main className="flex-grow flex items-center justify-center p-6">
-        <div className="bg-white shadow-lg rounded-2xl p-10 max-w-md w-full text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Support with just ₹1
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Small contributions create big changes.  
-            Be part of this initiative with just one rupee.
-          </p>
-
-          <button
-            onClick={handlePayment}
-            className="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:bg-indigo-700 transition-all"
-          >
-            Pay ₹1 Now
-          </button>
-        </div>
+        {!token ? (
+          <div className="max-w-md w-full text-center bg-white shadow-lg rounded-2xl p-8">
+            <h2 className="text-2xl font-bold mb-3">Unlock the Counter with Just ₹1</h2>
+            <p className="text-gray-600 mb-6">
+              A fun experiment to see how many people pay one rupee online.
+            </p>
+            <button
+              onClick={handlePayment}
+              disabled={loading}
+              className="w-full px-6 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+            >
+              {loading ? "Opening checkout…" : "Pay ₹1 Now"}
+            </button>
+            <p className="text-xs text-gray-400 mt-3">Powered by Razorpay</p>
+          </div>
+        ) : (
+          <div className="max-w-md w-full text-center bg-white shadow-lg rounded-2xl p-8">
+            <h2 className="text-xl font-semibold mb-2 text-green-600">You’ve unlocked 🎉</h2>
+            <div className="text-5xl font-extrabold my-4 text-blue-700">
+              {count === null ? "…" : count}
+            </div>
+            <div className="flex gap-3 justify-center">
+              <button onClick={fetchCount} className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">
+                Refresh
+              </button>
+              <button
+                onClick={() => {
+                  localStorage.removeItem("authToken");
+                  setToken(null);
+                  setCount(null);
+                }}
+                className="px-4 py-2 rounded border hover:bg-gray-100"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-white shadow-inner py-4 text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} PayOneRupee. All rights reserved.
+      <footer className="bg-gray-100 text-center text-xs text-gray-500 py-4">
+        <a href="/privacy-policy" className="hover:text-blue-600">Privacy</a> ·{" "}
+        <a href="/refund-policy" className="hover:text-blue-600">Refunds</a> ·{" "}
+        <a href="/terms" className="hover:text-blue-600">Terms</a> ·{" "}
+        <a href="/about" className="hover:text-blue-600">About</a>
+        <p className="mt-1">© {new Date().getFullYear()} PayOneRupee</p>
       </footer>
     </div>
   );
