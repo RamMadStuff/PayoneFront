@@ -10,7 +10,7 @@ export default function Footer() {
         <p className="mb-4 sm:mb-0">© {new Date().getFullYear()} PayOneRupee</p>
 
         {/* Links */}
-        <div className="flex flex-wrap justify-center sm:justify-end space-x-6"> 
+        <div className="flex flex-wrap justify-center sm:justify-end gap-6">
           <Link to="/privacy-policy" className="hover:text-blue-600">Privacy Policy</Link>
           <Link to="/refund-policy" className="hover:text-blue-600">Refund Policy</Link>
           <Link to="/terms" className="hover:text-blue-600">Terms of Service</Link>

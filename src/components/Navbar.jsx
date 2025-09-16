@@ -11,7 +11,7 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation Links */}
-        <div className="flex items-center space-x-8">  {/* bigger gap */}
+        <div className="flex items-center gap-8"> {/* bigger gap */}
           <Link to="/" className="text-gray-700 hover:text-blue-600 transition">Home</Link>
           <Link to="/about" className="text-gray-700 hover:text-blue-600 transition">About</Link>
           <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition">Contact</Link>
