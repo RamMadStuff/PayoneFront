@@ -14,15 +14,7 @@ import "./styles/custom.css";
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
-      {/* ✅ Navbar */}
-      <header className="w-full bg-black text-white px-6 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold text-yellow-400">💲 PayOneRupee</div>
-        <nav className="flex gap-6">
-          <Link to="/" className="hover:text-yellow-400">Home</Link>
-          <Link to="/contact" className="hover:text-yellow-400">Contact</Link>
-        </nav>
-      </header>
-
+      <Navbar />
       {/* ✅ Main Content */}
       <main className="flex-grow">
         <Routes>
