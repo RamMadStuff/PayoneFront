@@ -3,8 +3,8 @@ export default function Navbar() {
     <header className="navbar">
       <div className="logo">💲 PayOneRupee</div>
       <nav>
-        <a href="/">Home</a>
-        <a href="/contact">Contact</a>
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/contact" className="nav-link">Contact</Link>
       </nav>
     </header>
   );
