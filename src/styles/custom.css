@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  font-family: 'Permanent Marker', cursive;
+  background: #111 url("https://www.transparenttextures.com/patterns/crossword.png");
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  background: #000;
+  position: sticky;
+  top: 0;             /* ✅ fixed, not 50 */
+  left: 0;
+  z-index: 200;
+  box-sizing: border-box;
+  font-size: 1em;     /* ✅ lock navbar font size */
+}
+
+.logo {
+  font-size: 1.6em;
+    color: #ffcc00;
+  font-weight: bold;
+}
+
+.logo .brand {
+  color: #ffcc00;
+  font-style: italic;
+}
+
+.navbar nav {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-style: italic;
+}
+
+.navbar nav a:hover {
+  color: #ffcc00;
+}
+
+/* Main container — keep centered */
+.container {
+  max-width: 700px;
+  margin: 0 auto;             /* ✅ centers horizontally */
+  padding: 40px 20px;
+  flex: 1;                    /* take remaining height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;        /* ✅ center horizontally */
+  justify-content: center;    /* ✅ center vertically */
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.1em !important;
+  line-height: 1.3em;
+  margin-bottom: 10px;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Counter */
+#counter {
+  margin: 20px auto;
+  font-size: 2.2em;
+  background: #333;
+  color: #888;
+  padding: 12px 40px;
+  border-radius: 10px;
+  display: inline-block;
+  letter-spacing: 6px;
+  transition: all 0.5s ease;
+}
+
+#counter.reveal {
+  background: #ffcc00;
+  color: #111;
+  transform: scale(1.2);
+}
+
+/* Steps */
+h2 {
+  margin-top: 30px;
+  font-size: 1.8em;
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0 40px;
+  font-size: 1.2em;
+}
+
+.steps li {
+  margin: 8px 0;
+}
+
+/* Button */
+.pay-btn {
+  background: #ffcc00;
+  border: none;
+  font-size: 1.5em;
+  padding: 15px 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Permanent Marker', cursive;
+  transition: transform 0.2s ease;
+}
+
+.pay-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+/* Footer */
+footer {
+  margin-top: auto;   /* ✅ pushes footer to bottom */
+  padding: 15px 30px;
+  font-size: 0.9em;   /* change freely, won’t affect navbar */
+  background: #000;
+}
+
+footer a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+footer a:hover {
+  color: #ffcc00;
+}
