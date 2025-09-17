@@ -11,10 +11,8 @@ import "./styles/custom.css";
 
 export default function App() {
   return (
-    <div className="app-wrapper">
-      <Navbar />
-      <main className="main-content">
-        <Routes>
+          <Navbar />
+          <Routes>
           <Route path="/" element={<MainApp />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -22,8 +20,13 @@ export default function App() {
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/terms" element={<Terms />} />
         </Routes>
-      </main>
-      <Footer />
-    </div>
+<footer className="mt-12 text-xs text-gray-500 text-center">
+        <Link to="/privacy-policy" className="hover:text-blue-600">Privacy Policy</Link> ·{" "}
+        <Link to="/refund-policy" className="hover:text-blue-600">Refund Policy</Link> ·{" "}
+        <Link to="/terms" className="hover:text-blue-600">Terms of Service</Link> ·{" "}
+        <Link to="/about" className="hover:text-blue-600">About</Link> ·{" "}
+        <Link to="/contact" className="hover:text-blue-600">Contact</Link>
+      </footer>
+               </div>
   );
 }
