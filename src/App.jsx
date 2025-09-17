@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import MainApp from "./MainApp";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import RefundPolicy from "./pages/RefundPolicy";
-import Terms from "./pages/Terms";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
+import RefundPolicy from "./pages/RefundPolicy.jsx";
+import Terms from "./pages/Terms.jsx";
 import "./styles/custom.css";
 
 export default function App() {
