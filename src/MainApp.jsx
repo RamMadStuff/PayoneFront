@@ -73,7 +73,7 @@ export default function MainApp() {
         onClick={handlePayment}
         disabled={loading}
       >
-        💲 {loading ? "Opening…" : "Pay with Razorpay"}
+        💲 {loading ? "Opening…" : "Pay ₹1"}
       </button>
     </div>
   );
