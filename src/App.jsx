@@ -6,26 +6,42 @@ import RefundPolicy from "./pages/RefundPolicy.jsx";
 import Terms from "./pages/Terms.jsx";
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import "./styles/custom.css";
+
 
 export default function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<MainApp />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+    <div className="flex flex-col min-h-screen">
+      {/* ✅ Navbar */}
+      <header className="w-full bg-black text-white px-6 py-4 flex justify-between items-center">
+        <div className="text-xl font-bold text-yellow-400">💲 PayOneRupee</div>
+        <nav className="flex gap-6">
+          <Link to="/" className="hover:text-yellow-400">Home</Link>
+          <Link to="/contact" className="hover:text-yellow-400">Contact</Link>
+        </nav>
+      </header>
 
-      {/* Global Footer */}
-      <footer className="mt-12 text-xs text-gray-500 text-center">
-        <Link to="/privacy-policy" className="hover:text-blue-600">Privacy Policy</Link> ·{" "}
-        <Link to="/refund-policy" className="hover:text-blue-600">Refund Policy</Link> ·{" "}
-        <Link to="/terms" className="hover:text-blue-600">Terms of Service</Link> ·{" "}
-        <Link to="/about" className="hover:text-blue-600">About</Link> ·{" "}
-        <Link to="/contact" className="hover:text-blue-600">Contact</Link>
+      {/* ✅ Main Content */}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<MainApp />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </main>
+
+      {/* ✅ Footer */}
+      <footer className="bg-black text-gray-400 text-center text-sm py-4">
+        <Link to="/privacy-policy" className="hover:text-yellow-400">Privacy Policy</Link> ·{" "}
+        <Link to="/refund-policy" className="hover:text-yellow-400">Refund Policy</Link> ·{" "}
+        <Link to="/terms" className="hover:text-yellow-400">Terms of Service</Link> ·{" "}
+        <Link to="/about" className="hover:text-yellow-400">About</Link> ·{" "}
+        <Link to="/contact" className="hover:text-yellow-400">Contact</Link>
       </footer>
     </div>
   );
